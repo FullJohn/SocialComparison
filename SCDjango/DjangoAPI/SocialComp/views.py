@@ -51,7 +51,9 @@ def queryAPI(request, id=0):
         if query_serializer.is_valid():
             query_serializer.save()
             
-            return JsonResponse({'message':"Added Query Successfully", 'redirect': True}, safe=False)
+            queryId = query_serializer['QueryId'].value
+    
+            return JsonResponse({'message':"Added Query Successfully", 'redirect': True, 'queryId': queryId}, safe=False)
 
         return JsonResponse({'message':"Please fill out all the forms", 'redirect': False}, status=500, safe=False)
 
@@ -69,7 +71,6 @@ def runQuery(request):
         
         query_id = int(JSONParser().parse(request).get('id'))
         query = QueryModel.objects.get(QueryId = query_id)
-
         platform = query.platform
         brands = [query.brand1, query.brand2, query.brand3]
         date_range = [query.startDate, query.endDate]

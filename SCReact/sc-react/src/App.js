@@ -21,7 +21,7 @@ function App() {
       <Routes>
           <Route path='/home' element={<Home/>} />
           <Route path='/post' element={<Post/>} />
-          <Route path='/loading' element={<LoadScreen/>} />
+          <Route path='/home/loading' element={<LoadScreen/>} />
 
       </Routes>
     </div>

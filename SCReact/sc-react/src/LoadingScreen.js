@@ -11,6 +11,7 @@ export class LoadScreen extends Component{
     }
 
     runQuery(){
+        
         fetch(process.env.REACT_APP_API + 'run/', {
             method:'POST',
             headers:{
@@ -19,6 +20,7 @@ export class LoadScreen extends Component{
             },
             body:JSON.stringify({
                 queryId:this.props.queryId
+                
             })
         })
         .then(response=>response.json())
@@ -27,10 +29,17 @@ export class LoadScreen extends Component{
         })
         }
 
-        render(){
-            return(
-                <label>Testing</label>
-            )
+    
+    render(){
+        const x = true;
+        if(x){
+            this.runQuery();
+        }
+        return(
+            <label>Loading your results... This may take a while</label>
+        )
         }
     }
+
+
     
