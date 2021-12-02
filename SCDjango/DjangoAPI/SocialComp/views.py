@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
@@ -5,6 +6,9 @@ from django.http.response import JsonResponse
 
 from SocialComp.models import PostModel, QueryModel
 from SocialComp.serializers import PostSerializer, QuerySerializer
+
+from .collection import collections
+
 
 # Create your views here.
 @csrf_exempt
@@ -16,6 +20,7 @@ def postAPI(request, id=0):
     
     elif request.method == 'POST':
         post_data = JSONParser().parse(request)
+        
         post_serializer = PostSerializer(data = post_data)
         if post_serializer.is_valid():
             post_serializer.save()
@@ -41,14 +46,32 @@ def queryAPI(request, id=0):
 
     elif request.method == 'POST':
         query_data = JSONParser().parse(request)
+        print(query_data, type(query_data))
         query_serializer = QuerySerializer(data = query_data)
         if query_serializer.is_valid():
             query_serializer.save()
-            return JsonResponse("Added Query Successfully", safe=False)
-        return JsonResponse("Failed to Add Query", safe=False)
+            
+            return JsonResponse({'message':"Added Query Successfully", 'redirect': True}, safe=False)
+
+        return JsonResponse({'message':"Please fill out all the forms", 'redirect': False}, status=500, safe=False)
 
     elif request.method == 'DELETE':
         query = QueryModel.objects.get(QueryId = id)
         query.delete()
-        return JsonResponse("Deleted Query Successfully", save=False)
+        return JsonResponse("Deleted Query Successfully", safe=False)
 
+
+@csrf_exempt
+
+def runQuery(request):
+    
+    if request.method == 'POST':
+        
+        query_id = int(JSONParser().parse(request).get('id'))
+        query = QueryModel.objects.get(QueryId = query_id)
+
+        platform = query.platform
+        brands = [query.brand1, query.brand2, query.brand3]
+        date_range = [query.startDate, query.endDate]
+        collections.run_collection(platform, brands, date_range)
+        return JsonResponse("Success", safe=False)
