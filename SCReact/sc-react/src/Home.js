@@ -30,7 +30,7 @@ export class Home extends Component{
 
         
         event.preventDefault();
-        fetch(process.env.REACT_APP_API + 'query/', {
+        fetch('http://localhost:8000/query/', {
             method:'POST',
             headers:{
                 'Accept':'application/json',
