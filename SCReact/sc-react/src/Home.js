@@ -1,8 +1,13 @@
 import Button from '@restart/ui/esm/Button';
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { Tab } from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
 import { Navigate } from 'react-router';
+
+
+
+
+
 
 
 
@@ -11,16 +16,15 @@ export class Home extends Component{
     constructor(props) {
         super(props);
 
-        this.state = {platform: 'YouTube', brand1: '', brand2: '', brand3: '', startDate: new Date(), endDate: new Date(), redirect: false, queryId: ''};
-        
+        this.state = {queryId: '', platform: 'YouTube', brand1: '', brand2: '', brand3: '', startDate: new Date(), endDate: new Date(), redirect: false, queryId: ''};
+  
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.startDateChange = this.startDateChange.bind(this);
         this.endDateChange = this.endDateChange.bind(this);
-        
+    
       }
       
-
       startDateChange(date) {this.setState({startDate:date}); }
       endDateChange(date) {this.setState({endDate: date}); }
       handleChange(event) {this.setState({[event.target.name]: event.target.value}); }
@@ -45,32 +49,39 @@ export class Home extends Component{
                 endDate:endDate
             })
         })
-        .then(res=>res.json())
-        
-        .then((result)=>{
-            alert(result['message']);
+        .then(response=>response.json())
 
-            if(result['redirect'] == true){
-                this.state.redirect = true
-                this.setState([this.state.redirect])
-                this.state.queryId = result['queryId'].stringify
-                this.setState([this.state.queryId])
-            }
+        .then((result)=>{
             
         
+            if(result['redirect'] == true){
+                
+                this.state.queryId = result['queryId']
+                this.setState([this.state.queryId])
+                
+                this.state.redirect = true
+                this.setState([this.state.redirect])
+            }
+            
+            
+            else{
+                alert(result['message']);
+            }
+            
+
         })
-
-
-        
-
         //alert('Selected platform: ' + this.state.platform + '\nBrand 1: ' + this.state.brand1 + '\nBrand 2: ' + this.state.brand2
         //+ '\nBrand 3: ' + this.state.brand3 + '\nStart Date: ' + this.state.startDate + '\nEnd Date: ' + this.state.endDate);
-      }
-   
+    }
+
+
 
     render(){
-       
-    
+        if(this.state.redirect){
+            const url = "/loading?queryId=" + this.state.queryId
+            return(
+            <Navigate to={url}></Navigate>)
+        }
         return(
             <div>
                 <form onSubmit={this.handleSubmit}>

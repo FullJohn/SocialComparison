@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 from . import youtube_post
 import time
-
+import csv
 
 class YouTubeChannel:
     ###############################################################
@@ -28,7 +28,7 @@ class YouTubeChannel:
 
         # Default browser options
         options.add_argument('--incognito')
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
 
         # Mobile Emulation Setup
         mobile_emulation = {"deviceName": "Nexus 5"}
@@ -98,10 +98,10 @@ class YouTubeChannel:
         # Calls the collect_post() method from YouTubePost to collect
         # data from each video
         for post in self.posts:
-            if post.collect_post():
-                if post.include_post:
-                    post.save_post()
-            else:
+            keep_collecting = post.collect_post()
+            if post.include_post:
+                post.save_post()
+            if not keep_collecting:
                 break
-
+                    
         self.webdriver.quit()

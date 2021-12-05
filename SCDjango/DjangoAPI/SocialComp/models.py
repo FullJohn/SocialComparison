@@ -3,11 +3,11 @@ from django.db import models
 # Create your models here.
 class PostModel(models.Model):
     PostId = models.AutoField(primary_key=True)
-    url = models.CharField(max_length=100)
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=100)
-    thumbnail = models.CharField(max_length=100)
-    channel = models.CharField(max_length=100)
+    url = models.CharField(max_length=300)
+    title = models.CharField(max_length=300)
+    description = models.CharField(max_length=5000)
+    thumbnail = models.CharField(max_length=300)
+    channel = models.CharField(max_length=300)
     date = models.CharField(max_length=100)
     views = models.CharField(max_length=100)
     comments = models.CharField(max_length=100)

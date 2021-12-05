@@ -1,45 +1,68 @@
 import React, {Component, useState} from 'react';
+import { Navigate, useLocation } from 'react-router';
 
 
 export class LoadScreen extends Component{
 
     constructor(props) {
         super(props);
-    
-        this.state = {queryId: this.props.queryId,toPostResults: false};
+        
+        let search= window.location.search.substring(9)
+        this.state = {queryId: search, redirect: false};
+        
+        this.handleLoad = this.handleLoad.bind(this);
         this.runQuery = this.runQuery.bind(this);
     }
 
+    componentDidMount() {
+    
+        window.addEventListener('load', this.handleLoad);
+        this.runQuery()
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('load', this.handleLoad);
+    }
+    
+    
     runQuery(){
-        
-        fetch(process.env.REACT_APP_API + 'run/', {
+        const {queryId} = this.state
+        fetch('http://localhost:8000/run/', {
             method:'POST',
             headers:{
                 'Accept':'application/json',
                 'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                queryId:this.props.queryId
-                
+                queryId:queryId
             })
         })
         .then(response=>response.json())
         .then((result)=>{
-            this.setState({[this.state.toPostResults]:result['redirect']}); 
+
+            if(result['redirect'] == true){
+
+                this.state.redirect = true
+                this.setState([this.state.redirect])
+            }
         })
         }
 
-    
+    handleLoad(){
+        
+    }
     render(){
-        const x = true;
-        if(x){
-            this.runQuery();
+        if(this.state.redirect){
+            return(
+                <Navigate to='/post/'></Navigate>
+            )
         }
         return(
-            <label>Loading your results... This may take a while</label>
+            <div>
+                <label>Loading your results. Page will redirect upon completion.</label>
+                {this.runQuery}
+            </div>
+            
         )
         }
     }
-
-
-    

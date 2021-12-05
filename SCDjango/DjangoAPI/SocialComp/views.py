@@ -64,15 +64,13 @@ def queryAPI(request, id=0):
 
 
 @csrf_exempt
-
 def runQuery(request):
-    
+
     if request.method == 'POST':
-        
-        query_id = int(JSONParser().parse(request).get('id'))
+        query_id = int(JSONParser().parse(request).get('queryId'))
         query = QueryModel.objects.get(QueryId = query_id)
         platform = query.platform
         brands = [query.brand1, query.brand2, query.brand3]
         date_range = [query.startDate, query.endDate]
         collections.run_collection(platform, brands, date_range)
-        return JsonResponse("Success", safe=False)
+        return JsonResponse({'message':"Success", 'redirect': True}, safe=False)

@@ -44,7 +44,6 @@ class YouTubePost:
         self.views = 0
         self.comments = 0
         self.likes = 0
-        self.dislikes = 0
         self.include_post = False
 
     def collect_post(self):
@@ -59,8 +58,7 @@ class YouTubePost:
         meta_data = soup.findAll("div")[0]
         title_and_channel = meta_data.findAll(itemprop="name")
         likes_pre_parse = content[:content.rfind(' likes"')]
-        dislikes_pre_parse = content[:content.rfind(' dislikes"')]
-
+        
         self.title = title_and_channel[0].get('content')
         self.channel = title_and_channel[1].get('content')
         self.description = meta_data.find(itemprop="description").get('content')
@@ -69,8 +67,7 @@ class YouTubePost:
         self.thumbnail = meta_data.find(itemprop="thumbnailUrl").get('href')
         self.date = meta_data.find(itemprop="datePublished").get('content')
         self.likes = likes_pre_parse[likes_pre_parse.rfind('"') + 1:].replace(',', "")
-        self.dislikes = dislikes_pre_parse[dislikes_pre_parse.rfind('"') + 1:].replace(',', "")
-
+        
         self.webdriver.get(self.url)
         self.webdriver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(3)
@@ -90,9 +87,6 @@ class YouTubePost:
         else:
             self.comments = 0
 
-        if not self.dislikes.isnumeric():
-            self.dislikes = 0
-
         year = int(self.date[:4])
         month = int(self.date[5:7])
         day = int(self.date[8:])
@@ -100,18 +94,24 @@ class YouTubePost:
         post_datetime = datetime.date(year, month, day)
         lang = nlp(self.title)
         out_of_date_range = False
-        if self.date_range[0] > post_datetime or self.date_range[1] < post_datetime:
+        
+        if self.date_range[0] >= post_datetime and self.date_range[1] <= post_datetime:
             out_of_date_range = True
 
+       
         if lang._.language['language'] != 'en' or out_of_date_range:
+            
             self.include_post = False
 
+        if out_of_date_range:
+            self.include_post = False
+        
         else:
             self.include_post = True
 
         #self.webdriver.close()
 
-        if post_datetime <= self.date_range[0]:
+        if self.date_range[0] > post_datetime:
             return False
         else:
             return True
@@ -119,12 +119,12 @@ class YouTubePost:
     def save_post(self):
 
         post_data = {}
-        post_data['url'] = self.url
-        post_data['title'] = self.title
-        post_data['description'] = self.description
-        post_data['thumbnail'] = self.thumbnail
-        post_data['channel'] = self.channel
-        post_data['date'] = self.date
+        post_data['url'] = str(self.url)
+        post_data['title'] = str(self.title)[0:99]
+        post_data['description'] = str(self.description)
+        post_data['thumbnail'] = str(self.thumbnail)
+        post_data['channel'] = str(self.channel)
+        post_data['date'] = str(self.date)
         post_data['views'] = str(self.views)
         post_data['comments'] = str(self.comments)
         post_data['likes'] = str(self.likes)
@@ -133,3 +133,7 @@ class YouTubePost:
 
         if post_serializer.is_valid():
             post_serializer.save()
+
+        else:
+            print(post_serializer.errors)
+            
