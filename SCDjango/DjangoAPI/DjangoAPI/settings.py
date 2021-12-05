@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-n-(orz38ut+k*y3v494(gdmbl9xv(m1lpp_9_!)3u34n+h!e3p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#ALLOWED_HOSTS = ['3.13.161.255']
 ALLOWED_HOSTS = []
 
 
@@ -78,7 +79,19 @@ WSGI_APPLICATION = 'DjangoAPI.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+# TODO(P): TODO(P): Create a database user with lower privileges than admin to use in django database settings
+"""
+DATABASES = {
+    'default': {
+        'ENGINE':       'django.db.backends.mysql',
+        'NAME'  :       'socialcomparisondb',
+        'USER'  :       'admin',
+        'PASSWORD' :    'socialcomp',
+        'HOST'  :       'mysql-socialcomparison.cb7dy0jsseu9.us-east-2.rds.amazonaws.com',
+        'PORT'  :       '3306',
+    }
+}
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
