@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class PostModel(models.Model):
     PostId = models.AutoField(primary_key=True)
+    QueryId = models.CharField(max_length=100)
     url = models.CharField(max_length=300)
     title = models.CharField(max_length=300)
     description = models.CharField(max_length=5000)

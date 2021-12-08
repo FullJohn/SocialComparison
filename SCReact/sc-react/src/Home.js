@@ -34,7 +34,7 @@ export class Home extends Component{
 
         
         event.preventDefault();
-        fetch('http://localhost:8000/query/', {
+        fetch('http://172.26.2.96:80/query/', {
             method:'POST',
             headers:{
                 'Accept':'application/json',

@@ -4,7 +4,7 @@ from . import youtube_post
 import datetime
 
 
-def run_youtube_collect(brands, date_range):
+def run_youtube_collect(brands, date_range, query_id):
 
     date_range = pre_collect(date_range)
 
@@ -12,7 +12,7 @@ def run_youtube_collect(brands, date_range):
         date_range.reverse()
 
     for brand in brands:
-        youtube_channel.YouTubeChannel(brand, date_range)
+        youtube_channel.YouTubeChannel(brand, date_range, query_id)
 
 
 def pre_collect(date_range):

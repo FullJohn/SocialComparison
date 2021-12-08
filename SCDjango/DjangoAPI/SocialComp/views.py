@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from rest_framework.utils import json
 
 from SocialComp.models import PostModel, QueryModel
 from SocialComp.serializers import PostSerializer, QuerySerializer
@@ -12,9 +13,18 @@ from .collection import collections
 
 # Create your views here.
 @csrf_exempt
-def postAPI(request, id=0):
-    if request.method=='GET':
-        posts = PostModel.objects.all()
+def postAPI(request,id=0):
+    
+    
+    jsonData = JSONParser().parse(request)
+    get_posts = jsonData.get('getPosts')
+    
+    if request.method=='GET' or get_posts==True:
+        queryId = jsonData.get('queryId')
+        if queryId == "all":
+            posts = PostModel.objects.all()
+        else:
+            posts = PostModel.objects.filter(QueryId=queryId)
         post_serializer = PostSerializer(posts, many=True)
         return JsonResponse(post_serializer.data, safe=False)
     
@@ -72,5 +82,5 @@ def runQuery(request):
         platform = query.platform
         brands = [query.brand1, query.brand2, query.brand3]
         date_range = [query.startDate, query.endDate]
-        collections.run_collection(platform, brands, date_range)
+        collections.run_collection(platform, brands, date_range, query_id)
         return JsonResponse({'message':"Success", 'redirect': True}, safe=False)

@@ -1,15 +1,28 @@
 import React, {Component} from 'react';
 import {Table} from 'react-bootstrap';
+import { Navigate } from 'react-router';
 
 export class Post extends Component{
     
     constructor(props){
         super(props);
-        this.state={posts:[]}
+        let search= window.location.search.substring(9)
+        this.state={queryId: search, posts:[]}
     }
 
     refreshList(){
-        fetch('http://127.0.0.1:8000/post/')
+        const { queryId } = this.state
+        fetch('http://172.26.2.96:80/post/', {
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                getPosts:true,
+                queryId:queryId
+            })
+        })
         .then(response=>response.json())
         .then(data=>{
             this.setState({posts:data});

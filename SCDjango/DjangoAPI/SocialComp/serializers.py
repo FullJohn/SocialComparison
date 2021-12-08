@@ -4,7 +4,7 @@ from SocialComp.models import PostModel, QueryModel
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostModel
-        fields = ('PostId', 'url', 'title', 'description', 'thumbnail', 'channel', 'date', 'views', 'comments', 'likes')
+        fields = ('PostId', 'QueryId', 'url', 'title', 'description', 'thumbnail', 'channel', 'date', 'views', 'comments', 'likes')
 
 
 class QuerySerializer(serializers.ModelSerializer):

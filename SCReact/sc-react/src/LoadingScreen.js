@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import { Navigate, useLocation } from 'react-router';
+import { Navigate } from 'react-router';
 
 
 export class LoadScreen extends Component{
@@ -27,7 +27,7 @@ export class LoadScreen extends Component{
     
     runQuery(){
         const {queryId} = this.state
-        fetch('http://localhost:8000/run/', {
+        fetch('http://172.26.2.96:80/run/', {
             method:'POST',
             headers:{
                 'Accept':'application/json',
@@ -53,8 +53,9 @@ export class LoadScreen extends Component{
     }
     render(){
         if(this.state.redirect){
+            const url = "/post?queryId=" + this.state.queryId
             return(
-                <Navigate to='/post/'></Navigate>
+                <Navigate to={url}></Navigate>
             )
         }
         return(

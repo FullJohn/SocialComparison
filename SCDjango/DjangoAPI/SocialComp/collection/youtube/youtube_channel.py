@@ -20,7 +20,7 @@ class YouTubeChannel:
     #   Date         - Date range to collect posts within         #
     ###############################################################
 
-    def __init__(self, channel_name, date_range):
+    def __init__(self, channel_name, date_range, query_id):
 
         # Class Initialization function
 
@@ -43,6 +43,7 @@ class YouTubeChannel:
         post = youtube_post.YouTubePost
         self.posts = []
 
+        self.query_id = query_id
         self.retrieve_post_urls()
         self.create_posts()
         self.collect_posts()
@@ -100,7 +101,7 @@ class YouTubeChannel:
         for post in self.posts:
             keep_collecting = post.collect_post()
             if post.include_post:
-                post.save_post()
+                post.save_post(self.query_id)
             if not keep_collecting:
                 break
                     

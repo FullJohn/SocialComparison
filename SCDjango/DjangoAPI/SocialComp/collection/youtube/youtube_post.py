@@ -116,9 +116,10 @@ class YouTubePost:
         else:
             return True
 
-    def save_post(self):
+    def save_post(self, query_id):
 
         post_data = {}
+        post_data['QueryId'] = str(query_id)
         post_data['url'] = str(self.url)
         post_data['title'] = str(self.title)[0:99]
         post_data['description'] = str(self.description)
