@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Table} from 'react-bootstrap';
-import { Navigate } from 'react-router';
 
 export class Post extends Component{
     
@@ -12,7 +11,7 @@ export class Post extends Component{
 
     refreshList(){
         const { queryId } = this.state
-        fetch('http://172.26.2.96:80/post/', {
+        fetch('http://54.144.107.206:8000/post/', {
             method:'POST',
             headers:{
                 'Accept':'application/json',
@@ -71,11 +70,8 @@ export class Post extends Component{
                                 <td>{post.likes}</td>
                             </tr>)}
                     </tbody>
-
-
                 </Table>
             </div>
-
         )
     }
 }

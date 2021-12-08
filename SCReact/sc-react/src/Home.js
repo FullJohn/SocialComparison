@@ -34,7 +34,7 @@ export class Home extends Component{
 
         
         event.preventDefault();
-        fetch('http://172.26.2.96:80/query/', {
+        fetch('http://54.144.107.206:8000/query/', {
             method:'POST',
             headers:{
                 'Accept':'application/json',
@@ -63,17 +63,12 @@ export class Home extends Component{
                 this.setState([this.state.redirect])
             }
             
-            
             else{
                 alert(result['message']);
             }
-            
-
+        
         })
-        //alert('Selected platform: ' + this.state.platform + '\nBrand 1: ' + this.state.brand1 + '\nBrand 2: ' + this.state.brand2
-        //+ '\nBrand 3: ' + this.state.brand3 + '\nStart Date: ' + this.state.startDate + '\nEnd Date: ' + this.state.endDate);
     }
-
 
 
     render(){

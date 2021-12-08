@@ -4,6 +4,16 @@ from bs4 import BeautifulSoup
 from . import youtube_post
 import time
 import csv
+import requests
+
+def total_sub_count(content):
+    subscribers = content[:content.rfind(" subscribers")]
+    subscribers = subscribers[subscribers.rfind('"')+1:]
+    if 'K' in subscribers:
+        subscribers = subscribers.split('K')
+        subscribers = float(subscribers[0]) * 1000
+    
+    return subscribers
 
 class YouTubeChannel:
     ###############################################################
@@ -28,7 +38,7 @@ class YouTubeChannel:
 
         # Default browser options
         options.add_argument('--incognito')
-        options.add_argument('--headless')
+        #options.add_argument('--headless')
 
         # Mobile Emulation Setup
         mobile_emulation = {"deviceName": "Nexus 5"}
@@ -54,17 +64,36 @@ class YouTubeChannel:
 
         print("Beginning data retrieval for", self.channel_name)
         print("Collecting videos since", self.date_range)
-        try:
+        slash_c = False
+        slash_user = False
+        subs_c = 0
+        subs_user = 0
+
+        self.webdriver.get('https://www.youtube.com/c/' + self.channel_name + '/videos')
+
+        if(self.webdriver.title != '404 Not Found'):
+            # Meaning the channel exists at that url but we need to verify that it's the correct one
+            slash_c = True
+
+        if slash_c:
+            content = requests.get("https://www.youtube.com/c/" + self.channel_name + '/videos').text
+            subs_c = int(total_sub_count(content))
+            
+        self.webdriver.get('https://www.youtube.com/user/' + self.channel_name + '/videos')
+
+        if(self.webdriver.title != '404 Not Found'):
+            slash_user = True
+
+        if slash_user:
+            content = requests.get("https://www.youtube.com/user/" + self.channel_name + '/videos').text
+            subs_user = int(total_sub_count(content))
+        
+        
+        if subs_c > subs_user:
             self.webdriver.get('https://www.youtube.com/c/' + self.channel_name + '/videos')
 
-        except(self.webdriver.title == '404 Not Found'):
-            pass
-
-        try:
+        else:
             self.webdriver.get('https://www.youtube.com/user/' + self.channel_name + '/videos')
-
-        except(self.webdriver.title == '404 Not Found'):
-            pass
 
         last_height = self.webdriver.execute_script("return document.body.scrollHeight")
         scroll_pause = 0.5

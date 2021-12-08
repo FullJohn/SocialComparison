@@ -15,7 +15,6 @@ export class LoadScreen extends Component{
     }
 
     componentDidMount() {
-    
         window.addEventListener('load', this.handleLoad);
         this.runQuery()
     }
@@ -27,7 +26,7 @@ export class LoadScreen extends Component{
     
     runQuery(){
         const {queryId} = this.state
-        fetch('http://172.26.2.96:80/run/', {
+        fetch('http://54.144.107.206:8000/run/', {
             method:'POST',
             headers:{
                 'Accept':'application/json',
