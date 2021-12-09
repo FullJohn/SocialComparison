@@ -38,7 +38,7 @@ class YouTubeChannel:
 
         # Default browser options
         options.add_argument('--incognito')
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
 
         # Mobile Emulation Setup
         mobile_emulation = {"deviceName": "Nexus 5"}
