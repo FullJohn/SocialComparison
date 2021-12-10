@@ -7,6 +7,18 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ('PostId', 'QueryId', 'url', 'title', 'description', 'thumbnail', 'channel', 'date', 'views', 'comments', 'likes')
 
 
+class PostSerializer_Twitter(serializers.ModelSerializer):
+    class Meta:
+        model = PostModel
+        fields = ('PostId', 'QueryId', 'brand', 'url', 'description', 'date', 'likes', 'retweets', 'comments', 'image_url', 'views', 'followers')
+
+
+class PostSerializer_Twitter(serializers.ModelSerializer):
+    class Meta:
+        model = PostModel
+        fields = ('PostId', 'QueryId', 'brand', 'url', 'description', 'date', 'emojis', 'comments', 'image_url', 'followers')
+
+
 class QuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = QueryModel

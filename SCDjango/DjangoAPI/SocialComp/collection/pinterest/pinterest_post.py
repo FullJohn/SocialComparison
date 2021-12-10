@@ -33,6 +33,7 @@ class PinterestPost:
         self.comments = -1
         self.date = ''
         self.image_url = ''
+        self.followers = ''
 
     def scrape_post(self):
         #@TODO(P): Parse post text if it exists
@@ -83,6 +84,7 @@ class PinterestPost:
         print("Emojis:\t\t", self.emojis)
         print("Comments:\t", self.comments)
         print("Image URL:\t", self.image_url)
+        print("Followers:\t", self.followers)
         print("\n\n")
         
     def save_post(self):
@@ -94,6 +96,7 @@ class PinterestPost:
         post_data['emojis'] = str(self.emojis)
         post_data['comments'] = str(self.comments)
         post_data['image_url'] = str(self.image_url)
+        post_data['followers'] = str(self.followers)
 
         post_serializer = PostSerializer(data = post_data)
 

@@ -99,6 +99,7 @@ class TwitterUser:
         print(self.followers + "\n")
         for div in self.divs:
             post = twitter_post.TwitterPost(div, self.brand_name)
+            post.followers = self.followers
             post.scrape_post()
             self.posts.append(post)
         

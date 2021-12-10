@@ -114,6 +114,7 @@ class PinterestUser:
             time.sleep(3)
             soup = BeautifulSoup(self.driver.page_source, 'lxml')
             post = pinterest_post.PinterestPost(post_url, self.brand_name, soup)
+            post.followers = self.followers
             post.scrape_post()
             
             if post.date < self.firstDate or post.date > self.lastDate:

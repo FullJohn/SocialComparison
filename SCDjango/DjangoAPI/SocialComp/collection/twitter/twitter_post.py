@@ -34,8 +34,8 @@ class TwitterPost:
         self.date = ''
         self.comments = -1
         self.image_url = ''
-        
         self.vid_views = ''
+        self.followers = ''
 
     def scrape_post(self):
         #@NOTE(P): Parse Post URL
@@ -112,6 +112,7 @@ class TwitterPost:
         print("Comments:\t", self.comments)
         print("Image URL:\t", self.image_url)
         print("Video Views:\t", self.vid_views)
+        print("Acount Followers:\t", self.followers)
         print("\n\n")
         
     def save_post(self):
@@ -121,12 +122,13 @@ class TwitterPost:
         post_data['description'] = str(self.description)
         post_data['date'] = str(self.date)
         post_data['likes'] = str(self.likes)
-        post_data['views'] = str(self.retweets)
+        post_data['retweets'] = str(self.retweets)
         post_data['comments'] = str(self.comments)
         post_data['image_url'] = str(self.image_url)
-        post_data['vid_views'] = str(self.vid_views)
+        post_data['views'] = str(self.vid_views)
+        post_data['followers'] = str(self.followers)
         
-        post_serializer = PostSerializer(data = post_data)
+        post_serializer = PostSerializer_Twitter(data = post_data)
 
         if post_serializer.is_valid():
             post_serializer.save()
