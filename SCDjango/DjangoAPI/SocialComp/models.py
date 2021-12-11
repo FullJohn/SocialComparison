@@ -42,6 +42,18 @@ class PostModel_Pinterest(models.Model):
     img_url = models.CharField(max_length=300)
     followers = models.CharField(max_length=100)
 
+class PostModel_TikTok(models.Model):
+    PostId = models.AutoField(primary_key=True)
+    QueryId = models.CharField(max_length=100)
+    brand = models.CharField(max_length=300)
+    playUrl = models.CharField(max_length=300)
+    description = models.CharField(max_length=5000)
+    date = models.CharField(max_length=100)
+    likes = models.CharField(max_length=200)
+    views = models.CharField(max_length=200)
+    comments = models.CharField(max_length=100)
+    shares = models.CharField(max_length=100)
+
 
 class QueryModel(models.Model):
     QueryId = models.AutoField(primary_key=True)
