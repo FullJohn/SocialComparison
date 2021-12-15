@@ -2,13 +2,13 @@ from . import tiktok_user
 import datetime
 
 
-def run_tiktok_collect(brands, date_range):
+def run_tiktok_collect(brands, date_range, query_id):
     date_range = pre_collect(date_range)
     if date_range[0] > date_range[1]:
         date_range.reverse()
 
     for brand_name in brands:
-        tiktok_user.TiktokUser(brand_name, date_range)
+        tiktok_user.TiktokUser(brand_name, date_range, query_id)
 
 
 def pre_collect(date_range):

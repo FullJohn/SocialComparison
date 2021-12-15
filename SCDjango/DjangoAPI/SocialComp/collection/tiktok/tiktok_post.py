@@ -31,18 +31,20 @@ class TiktokPost:
         self.description = ''
         self.playUrl = ''
         self.downloadUrl = ''
+        self.thumbnail = ''
 
     def parse_post(self, vid_item):
         # Parse video item
         self.postId = vid_item['id']
         self.description = vid_item['desc']
-        self.dateCreated = datetime.fromtimestamp(int(vid_item['createTime']))
+        self.dateCreated = datetime.fromtimestamp(int(vid_item['createTime'])).date()
         self.playCount = vid_item['stats']['playCount']
         self.likeCount = vid_item['stats']['diggCount']
         self.shareCount = vid_item['stats']['shareCount']
         self.commentCount = vid_item['stats']['commentCount']
         self.playUrl = vid_item['video']['playAddr']
         self.downloadUrl = vid_item['video']['downloadAddr']
+        self.thumbnail = vid_item['video']['dynamicCover']
 
     def print(self):
         # Prints the data from the post
@@ -56,17 +58,29 @@ class TiktokPost:
         print("Video Views:\t", self.playCount)
         print("Play URL:\t", self.playUrl)
         print("Download URL:\t", self.downloadUrl)
+        print("Thumbnail:\t\t", self.thumbnail)
         print("\n\n")
 
-    def save_post(self):
-        post_data = {'brand': str(self.brand),
-                     'playUrl': str(self.playUrl),
+    def save_post(self, query_id):
+        post_data = {'QueryId': str(query_id),
+                     'url': str(self.playUrl),
+                     'title': str(self.description),
                      'description': str(self.description),
+                     'thumbnail': str(self.thumbnail),
+                     'channel': str(self.brand),
                      'date': str(self.dateCreated),
-                     'likes': str(self.likeCount),
                      'views': str(self.playCount),
                      'comments': str(self.commentCount),
-                     'shares': str(self.shareCount)}
+                     'likes': str(self.likeCount)}
+
+        # post_data = {'brand': str(self.brand),
+        #              'playUrl': str(self.playUrl),
+        #              'description': str(self.description),
+        #              'date': str(self.dateCreated),
+        #              'likes': str(self.likeCount),
+        #              'views': str(self.playCount),
+        #              'comments': str(self.commentCount),
+        #              'shares': str(self.shareCount)}
 
         post_serializer = PostSerializer(data=post_data)
 

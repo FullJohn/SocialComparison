@@ -19,10 +19,10 @@ class PostSerializer_Twitter(serializers.ModelSerializer):
         fields = ('PostId', 'QueryId', 'brand', 'url', 'description', 'date', 'emojis', 'comments', 'image_url', 'followers')
 
 
-class PostSerializer_TikTok(serializers.ModelSerializer):
-    class Meta:
-        model = PostModel
-        fields = ('PostId', 'QueryId', 'brand', 'playUrl', 'description', 'date', 'likes', 'views', 'comments', 'shares')
+# class PostSerializer_TikTok(serializers.ModelSerializer):
+#     class Meta:
+#         model = PostModel
+#         fields = ('PostId', 'QueryId', 'brand', 'playUrl', 'description', 'date', 'likes', 'views', 'comments', 'shares')
 
 
 class QuerySerializer(serializers.ModelSerializer):
