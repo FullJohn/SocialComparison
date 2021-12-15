@@ -87,8 +87,9 @@ class PinterestPost:
         print("Followers:\t", self.followers)
         print("\n\n")
         
-    def save_post(self):
+    def save_post(self, query_id):
         post_data = {}
+        post_data['QueryId'] = str(query_id)
         post_data['brand'] = str(self.brand)
         post_data['url'] = str(self.post_url)
         post_data['description'] = str(self.description)

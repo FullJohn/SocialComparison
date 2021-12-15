@@ -4,7 +4,7 @@ from . import pinterest_post
 import datetime
 
 
-def run_pinterest_collect(brands, date_range):
+def run_pinterest_collect(brands, date_range, query_id):
 
     date_range = pre_collect(date_range)
 
@@ -12,7 +12,7 @@ def run_pinterest_collect(brands, date_range):
         date_range.reverse()
 
     for brand_name in brands:
-        pinterest_user.PinterestUser(brand_name, date_range)
+        pinterest_user.PinterestUser(brand_name, date_range, query_id)
 
 
 def pre_collect(date_range):

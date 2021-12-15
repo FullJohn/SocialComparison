@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
 from bs4 import BeautifulSoup
-import pinterest_post
+from . import pinterest_post
 
 
 class PinterestUser:
@@ -27,7 +27,7 @@ class PinterestUser:
     # Pierce Hopkins                                                #
     #################################################################
 
-    def __init__(self, brand_name,  date_range):
+    def __init__(self, brand_name,  date_range, query_id):
         # Class initializing function
 
         # Webdriver Options
@@ -46,6 +46,8 @@ class PinterestUser:
         self.followers = ''
         
         self.posts = []
+        
+        self.query_id = query_id
 
     def retrieve_posts(self):
         account_url = "https://www.pinterest.com/" + self.brand_name + "/_created"
@@ -122,7 +124,7 @@ class PinterestUser:
             else:
                 post.print()
                 self.posts.append(post)
-                post.save_post()
+                post.save_post(query_id)
                 
             time.sleep(17)#@TODO(P): may want to make this random
             

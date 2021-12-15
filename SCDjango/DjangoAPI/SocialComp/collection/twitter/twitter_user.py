@@ -5,7 +5,7 @@ import re
 
 import selenium.webdriver as webdriver
 from bs4 import BeautifulSoup
-import twitter_post
+from . import twitter_post
 
 
 class TwitterUser:
@@ -24,7 +24,7 @@ class TwitterUser:
     # Pierce Hopkins                                                #
     #################################################################
 
-    def __init__(self, brand_name, date_range):
+    def __init__(self, brand_name, date_range, query_id):
         # Class initializing function
 
         # Webdriver Options
@@ -45,6 +45,8 @@ class TwitterUser:
         #self.date_range = firstDate - lastDate
         self.divs = []
         self.posts = []
+        
+        self.query_id = query_id
 
     def retrieve_posts(self):
         account_url = "https://twitter.com/" + self.brand_name + "/"
@@ -108,4 +110,4 @@ class TwitterUser:
                 self.posts.remove(post)
             else:
                 post.print()
-                post.save_post()
+                post.save_post(self.query_id)

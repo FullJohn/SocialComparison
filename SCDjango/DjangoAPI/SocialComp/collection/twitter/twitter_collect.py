@@ -4,7 +4,7 @@ from . import twitter_post
 import datetime
 
 
-def run_twitter_collect(brands, date_range):
+def run_twitter_collect(brands, date_range, query_id):
 
     date_range = pre_collect(date_range)
 
@@ -12,7 +12,7 @@ def run_twitter_collect(brands, date_range):
         date_range.reverse()
 
     for brand_name in brands:
-        twitter_user.TwitterUser(brand_name, date_range)
+        twitter_user.TwitterUser(brand_name, date_range, query_id) 
 
 
 def pre_collect(date_range):
