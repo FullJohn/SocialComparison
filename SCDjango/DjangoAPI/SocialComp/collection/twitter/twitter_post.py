@@ -118,6 +118,7 @@ class TwitterPost:
         
     def save_post(self, query_id):
         post_data = {}
+        """
         post_data['QueryId'] = str(query_id)
         post_data['brand'] = str(self.brand)
         post_data['url'] = str(self.post_url)
@@ -129,8 +130,19 @@ class TwitterPost:
         post_data['image_url'] = str(self.image_url)
         post_data['views'] = str(self.vid_views)
         post_data['followers'] = str(self.followers)
+        """
+        post_data['QueryId'] = str(query_id)
+        post_data['url'] = str(self.post_url)
+        post_data['title'] = str(self.retweets)
+        post_data['description'] = str(self.description)
+        post_data['thumbnail'] = str(self.image_url)
+        post_data['channel'] = str(self.brand)
+        post_data['date'] = str(self.date)
+        post_data['views'] = str(self.vid_views)
+        post_data['comments'] = str(self.comments)
+        post_data['likes'] = str(self.likes)
         
-        post_serializer = PostSerializer_Twitter(data = post_data)
+        post_serializer = PostSerializer(data = post_data)
 
         if post_serializer.is_valid():
             post_serializer.save()

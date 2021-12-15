@@ -89,6 +89,7 @@ class PinterestPost:
         
     def save_post(self, query_id):
         post_data = {}
+        """
         post_data['QueryId'] = str(query_id)
         post_data['brand'] = str(self.brand)
         post_data['url'] = str(self.post_url)
@@ -98,7 +99,19 @@ class PinterestPost:
         post_data['comments'] = str(self.comments)
         post_data['image_url'] = str(self.image_url)
         post_data['followers'] = str(self.followers)
-
+        """
+        
+        post_data['QueryId'] = str(query_id)
+        post_data['url'] = str(self.post_url)
+        post_data['title'] = str("{Not Found}")
+        post_data['description'] = str(self.description)
+        post_data['thumbnail'] = str(self.image_url)
+        post_data['channel'] = str(self.brand)
+        post_data['date'] = str(self.date)
+        post_data['views'] = str(self.followers)
+        post_data['comments'] = str(self.comments)
+        post_data['likes'] = str(self.emojis)
+        
         post_serializer = PostSerializer(data = post_data)
 
         if post_serializer.is_valid():
