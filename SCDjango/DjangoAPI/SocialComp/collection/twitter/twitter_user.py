@@ -5,7 +5,7 @@ import re
 
 import selenium.webdriver as webdriver
 from bs4 import BeautifulSoup
-import twitter_post
+from . import twitter_post
 
 
 class TwitterUser:
@@ -24,7 +24,7 @@ class TwitterUser:
     # Pierce Hopkins                                                #
     #################################################################
 
-    def __init__(self, brand_name, date_range):
+    def __init__(self, brand_name, date_range, query_id):
         # Class initializing function
 
         # Webdriver Options
@@ -45,6 +45,11 @@ class TwitterUser:
         #self.date_range = firstDate - lastDate
         self.divs = []
         self.posts = []
+        
+        self.query_id = query_id
+
+        self.retrieve_posts()
+        self.parse_divs()
 
     def retrieve_posts(self):
         account_url = "https://twitter.com/" + self.brand_name + "/"
@@ -89,7 +94,7 @@ class TwitterUser:
                 temp_datetime = datetime.datetime.strptime(time_posted.attrs['datetime'], "%Y-%m-%dT%H:%M:%S.000Z")
                 
                 #@NOTE(P): Break the loop when we find a post before our date range
-                if temp_datetime < self.firstDate:
+                if temp_datetime.date() < self.firstDate:
                     scrolling = False
         self.followers = temp_followers.get_text() if temp_followers else "{Error Retrieving Followers}"
         self.driver.quit()
@@ -99,12 +104,13 @@ class TwitterUser:
         print(self.followers + "\n")
         for div in self.divs:
             post = twitter_post.TwitterPost(div, self.brand_name)
+            post.followers = self.followers
             post.scrape_post()
             self.posts.append(post)
         
         for post in self.posts:
-            if post.date < self.firstDate or post.date > self.lastDate:
+            if post.date.date() < self.firstDate or post.date.date() > self.lastDate:
                 self.posts.remove(post)
             else:
                 post.print()
-                post.save_post()
+                post.save_post(self.query_id)

@@ -25,7 +25,7 @@ class PinterestPost:
 
     def __init__(self, url, brand_name, post_html):
         # Class initialization function
-        self.post_url = "https://www.pinterest.com/" + url
+        self.post_url = "https://www.pinterest.com" + url
         self.brand = brand_name
         self.post_html = post_html
         self.description = ''
@@ -33,6 +33,7 @@ class PinterestPost:
         self.comments = -1
         self.date = ''
         self.image_url = ''
+        self.followers = ''
 
     def scrape_post(self):
         #@TODO(P): Parse post text if it exists
@@ -83,10 +84,13 @@ class PinterestPost:
         print("Emojis:\t\t", self.emojis)
         print("Comments:\t", self.comments)
         print("Image URL:\t", self.image_url)
+        print("Followers:\t", self.followers)
         print("\n\n")
         
-    def save_post(self):
+    def save_post(self, query_id):
         post_data = {}
+        """
+        post_data['QueryId'] = str(query_id)
         post_data['brand'] = str(self.brand)
         post_data['url'] = str(self.post_url)
         post_data['description'] = str(self.description)
@@ -94,7 +98,20 @@ class PinterestPost:
         post_data['emojis'] = str(self.emojis)
         post_data['comments'] = str(self.comments)
         post_data['image_url'] = str(self.image_url)
-
+        post_data['followers'] = str(self.followers)
+        """
+        
+        post_data['QueryId'] = str(query_id)
+        post_data['url'] = str(self.post_url)
+        post_data['title'] = str("{Not Found}")
+        post_data['description'] = str(self.description)
+        post_data['thumbnail'] = str(self.image_url)
+        post_data['channel'] = str(self.brand)
+        post_data['date'] = str(self.date)
+        post_data['views'] = str(self.followers)
+        post_data['comments'] = str(self.comments)
+        post_data['likes'] = str(self.emojis)
+        
         post_serializer = PostSerializer(data = post_data)
 
         if post_serializer.is_valid():

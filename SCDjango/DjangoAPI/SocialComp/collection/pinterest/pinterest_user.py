@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
 from bs4 import BeautifulSoup
-import pinterest_post
+from . import pinterest_post
 
 
 class PinterestUser:
@@ -27,7 +27,7 @@ class PinterestUser:
     # Pierce Hopkins                                                #
     #################################################################
 
-    def __init__(self, brand_name,  date_range):
+    def __init__(self, brand_name,  date_range, query_id):
         # Class initializing function
 
         # Webdriver Options
@@ -46,6 +46,10 @@ class PinterestUser:
         self.followers = ''
         
         self.posts = []
+        
+        self.query_id = query_id
+        self.retrieve_posts()
+        
 
     def retrieve_posts(self):
         account_url = "https://www.pinterest.com/" + self.brand_name + "/_created"
@@ -75,9 +79,12 @@ class PinterestUser:
         #@NOTE(P): get followers
         #data-test-id="profile-followers-link"
         soup = BeautifulSoup(self.driver.page_source, 'lxml')
-        self.followers = soup.find("div", { "data-test-id" : "profile-followers-link" }).get_text()
-        print(self.followers)
-        
+        temp_followers = soup.find("div", { "data-test-id" : "profile-followers-link" })
+        if temp_followers != None:
+            self.followers = temp_followers.get_text()
+        else:
+            self.followers = "{Error}"
+
         print("Gathering all posts between: " + self.firstDate.strftime("%b %d") + " and " + self.lastDate.strftime("%b %d"))
         
         post_urls = []
@@ -114,14 +121,16 @@ class PinterestUser:
             time.sleep(3)
             soup = BeautifulSoup(self.driver.page_source, 'lxml')
             post = pinterest_post.PinterestPost(post_url, self.brand_name, soup)
+            post.followers = self.followers
             post.scrape_post()
             
-            if post.date < self.firstDate or post.date > self.lastDate:
-                self.posts.remove(post)
+            if post.date.date() < self.firstDate or post.date.date() > self.lastDate:
+                if post in self.posts:
+                    self.posts.remove(post)
             else:
                 post.print()
                 self.posts.append(post)
-                post.save_post()
+                post.save_post(self.query_id)
                 
             time.sleep(17)#@TODO(P): may want to make this random
             

@@ -34,16 +34,20 @@ class TwitterPost:
         self.date = ''
         self.comments = -1
         self.image_url = ''
-        
         self.vid_views = ''
-
+        self.followers = ''
+        
+        
     def scrape_post(self):
         #@NOTE(P): Parse Post URL
         #a
         #css-4rbku5 css-18t94o4 css-901oao r-14j79pv r-1loqt21 r-1q142lx r-1qd0xha r-1b43r93 r-16dba41 r-hjklzo r-bcqeeo r-3s2u2q r-qvutc0
         post_url = self.post_html.find("a", class_="css-4rbku5 css-18t94o4 css-901oao r-14j79pv r-1loqt21 r-1q142lx r-1qd0xha r-1b43r93 r-16dba41 r-hjklzo r-bcqeeo r-3s2u2q r-qvutc0")
-        self.post_url = "www.twitter.com" + post_url['href']
-        
+        if post_url != None:
+            self.post_url = "www.twitter.com" + post_url['href']
+        else:
+            self.post_url = "www.twitter.com" + "/error"
+
         #@NOTE(P): Parse post text if it exists
         #span
         #css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0
@@ -112,19 +116,34 @@ class TwitterPost:
         print("Comments:\t", self.comments)
         print("Image URL:\t", self.image_url)
         print("Video Views:\t", self.vid_views)
+        print("Acount Followers:\t", self.followers)
         print("\n\n")
         
-    def save_post(self):
+    def save_post(self, query_id):
         post_data = {}
+        """
+        post_data['QueryId'] = str(query_id)
         post_data['brand'] = str(self.brand)
         post_data['url'] = str(self.post_url)
         post_data['description'] = str(self.description)
         post_data['date'] = str(self.date)
         post_data['likes'] = str(self.likes)
-        post_data['views'] = str(self.retweets)
+        post_data['retweets'] = str(self.retweets)
         post_data['comments'] = str(self.comments)
         post_data['image_url'] = str(self.image_url)
-        post_data['vid_views'] = str(self.vid_views)
+        post_data['views'] = str(self.vid_views)
+        post_data['followers'] = str(self.followers)
+        """
+        post_data['QueryId'] = str(query_id)
+        post_data['url'] = str(self.post_url)
+        post_data['title'] = str(self.retweets)
+        post_data['description'] = str(self.description)
+        post_data['thumbnail'] = str(self.image_url)
+        post_data['channel'] = str(self.brand)
+        post_data['date'] = str(self.date)
+        post_data['views'] = str(self.vid_views)
+        post_data['comments'] = str(self.comments)
+        post_data['likes'] = str(self.likes)
         
         post_serializer = PostSerializer(data = post_data)
 

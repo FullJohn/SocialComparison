@@ -4,19 +4,18 @@ from . import twitter_post
 import datetime
 
 
-def run_twitter_collect(brands, date_range):
+def run_twitter_collect(brands, date_range, query_id):
 
     date_range = pre_collect(date_range)
 
     if date_range[0] > date_range[1]:
         date_range.reverse()
 
-    for brand_name in brands:
-        twitter_user.TwitterUser(brand_name, date_range)
+    for brand in brands:
+        twitter_user.TwitterUser(brand, date_range, query_id)
 
 
 def pre_collect(date_range):
-    
     date1 = [date_range[0].split('T')[0]][0]
     date2 = [date_range[1].split('T')[0]][0]
     date1 = date1.split('-')
