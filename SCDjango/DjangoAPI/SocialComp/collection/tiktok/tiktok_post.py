@@ -42,7 +42,7 @@ class TiktokPost:
         self.likeCount = vid_item['stats']['diggCount']
         self.shareCount = vid_item['stats']['shareCount']
         self.commentCount = vid_item['stats']['commentCount']
-        self.playUrl = vid_item['video']['playAddr']
+        self.playUrl = 'https://www.tiktok.com/@' + self.brand + '/video/' + self.postId
         self.downloadUrl = vid_item['video']['downloadAddr']
         self.thumbnail = vid_item['video']['dynamicCover']
 

@@ -1,7 +1,7 @@
 import json
 import requests
 # import datetime
-import tiktok_post
+from . import tiktok_post
 
 
 class TiktokUser:
@@ -38,6 +38,9 @@ class TiktokUser:
         self.data = []
         self.posts = []
 
+        self.retrieve_posts()
+        self.parse_data()
+
     def retrieve_posts(self):
         account_url = "https://tiktok33.p.rapidapi.com/user/feed/" + self.brandHandle
         headers = {
@@ -71,17 +74,3 @@ class TiktokUser:
             else:
                 # post.print()
                 post.save_post(self.query_id)
-
-
-# if __name__ == "__main__":
-#     y1, m1, d1 = 2021, 11, 30
-#     y2, m2, d2 = 2021, 12, 10
-#
-#     date1 = datetime.date(y1, m1, d1)
-#     date2 = datetime.date(y2, m2, d2)
-#     dateRange = [date1, date2]
-#     brand_name = 'theoreoofficial'
-#     q_id = 'None'
-#     tt = TiktokUser(brand_name, dateRange, q_id)
-#     tt.retrieve_posts()
-#     tt.parse_data()
