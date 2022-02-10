@@ -3,6 +3,7 @@ import React, {Component, useEffect, useState} from 'react';
 import { Tab } from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
 import { Navigate } from 'react-router';
+import test from './test.png';
 
 
 
@@ -80,38 +81,72 @@ export class Home extends Component{
         return(
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <label htmlFor='platform'>Select a platform:</label>
-                        <select name='platform' placeholder = 'YouTube' value={this.state.platform} onChange={this.handleChange}>
-                            <option value="youtube">YouTube</option>
-                            <option value="facebook">Facebook</option>
-                            <option value="instagram">Instagram</option>
-                            <option value="twitter">Twitter</option>
-                            <option value="pinterest">Pinterest</option>
-                            <option value="tiktok">TikTok</option>
-                        </select>
+                   
                     <br></br>
-                    <label htmlFor="startDate">Start Date:</label>
+                    <div className='Icon-wrapper'>
+                        <img alt='test' src={test}></img>
+                        <img alt='test' src={test}></img>
+                        <img alt='test' src={test}></img>
+                        <img alt='test' src={test}></img>
+                        <img alt='test' src={test}></img>
+                        <img alt='test' src={test}></img>
+
+                    </div>
+                    <br></br>
+                    <div className='Date-wrapper'>
+                        <div className='Date-field'>
+                        <label htmlFor="startDate">Start Date:</label>
                         <DatePicker type="date" name="startDate" value={this.state.startDate}
                         onChange={this.startDateChange} required={true} dayPlaceholder="dd" monthPlaceholder="mm" yearPlaceholder="yyyy"
                         clearIcon={null}></DatePicker>
-                    <t></t>
-                    <label htmlFor="endDate">End Date:</label>
+                        </div>
+    
+                    <div className='Date-field'>
+
+                        <label htmlFor="endDate">End Date:</label>
                         <DatePicker type="date" name="endDate" value={this.state.endDate}
                         onChange={this.endDateChange} required={true} dayPlaceholder="dd" monthPlaceholder="mm" yearPlaceholder="yyyy"
                         clearIcon={null}></DatePicker>
-                    
-                    <br></br>
-                    
-                    <label htmlFor='brand1'>Brand 1:</label>
-                        <input type="text" name="brand1" value={this.state.brand1} onChange={this.handleChange}/>
-                    <label htmlFor='brand2'>Brand 2:</label>
-                        <input type="text" name="brand2" value={this.state.brand2} onChange={this.handleChange}/>
-                    <label htmlFor='brand3'>Brand 3:</label>
-                        <input type="text" name="brand3" value={this.state.brand3} onChange={this.handleChange}/>
-                    <br></br>
 
-                    <input type='submit' value='Submit'></input>
-                    </form>
+                    </div>
+                    
+                    <br></br>
+                    
+
+
+                    </div>
+                    
+                    
+                    <br></br>
+                    
+                    <div className='Brand-wrapper'>
+
+                        <div className='Brand-field'>
+                        <label htmlFor='brand1'>Brand 1:</label>
+                        <input type="text" name="brand1" value={this.state.brand1} onChange={this.handleChange}/>
+                   
+
+                        </div>
+                        <div className='Brand-field'>
+                        <label htmlFor='brand2'>Brand 2:</label>
+                        <input type="text" name="brand2" value={this.state.brand2} onChange={this.handleChange}/>
+                    
+                            
+                        </div>
+                        <div className='Brand-field'>
+                        <label htmlFor='brand3'>Brand 3:</label>
+                        <input type="text" name="brand3" value={this.state.brand3} onChange={this.handleChange}/>
+                    
+                            
+                        </div>
+
+                    </div>
+                    <br></br>
+                    
+                        
+                    <input className='Submit-button' type='submit' value='Submit'></input>
+                    
+                     </form>
                     
                 </div>
             );
